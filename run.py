@@ -23,7 +23,7 @@ def get_data(data_type):
     darren = input("Darren: ")
     george = input("George: ")
     conor = input("Conor: ")
-    data_str = [str(holidays_emma), str(holidays_charlie), str(holidays_darren), str(holidays_george), str(holidays_conor)]
+    data_str = [str(emma), str(charlie), str(darren), str(george), str(conor)]
     validate_data(data_str)
     return data_str
 
@@ -37,10 +37,25 @@ def validate_data(values):
     except ValueError as e:
         print(f'Invalid answer: {e}. Please try again\n')
 
+def append_worksheet(data, worksheet):
+    """
+    Receives holidays taken data and updates worksheet
+    """
+    print(f"Updating {worksheet} worksheet...")
+    worksheet_to_update = SHEET.worksheet(worksheet)
+    worksheet_to_update.append_row(data)
+    print(f"{worksheet} worksheet updated successfully\n")
+
+
+
+
 def main():
     """
     Calls the main functions
     """
-    get_data("holidays taken")
-    get_data("over hours worked")
+    holidays_data = get_data("holidays taken")
+    append_worksheet(holidays_data, "holidays taken")
+    hours_data = get_data("over hours worked")
+    append_worksheet(hours_data, "over hours")
 
+main()
