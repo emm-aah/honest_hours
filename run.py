@@ -33,6 +33,24 @@ def get_holidays_taken():
     validate_data(holidays_str)
     return holidays_str
 
+def get_over_hours():
+    """
+    Get data for over hours worked this month
+    """
+    print("Please enter the over hours worked by the relevant employee below")
+    print("This should be in numerical form")
+    hours_emma = input("Emma: ")
+    hours_charlie = input("Charlie: ")
+    hours_darren = input("Darren: ")
+    hours_george = input("George: ")
+    hours_conor = input("Conor: ")
+    
+    print(f"Emma worked {hours_emma}.\n Charlie worked {hours_charlie}.\n Darren worked {hours_darren}.\n George worked {hours_george}.\n Conor worked {hours_conor}.")
+    hours_str = [str(hours_emma), str(hours_charlie), str(hours_darren), str(hours_george), str(hours_conor)]
+    validate_data(hours_str)
+    return hours_str
+
+
 def validate_data(values):
     try:
         [int(value) for value in values]
@@ -41,4 +59,5 @@ def validate_data(values):
 
 
 get_holidays_taken()
+get_over_hours()
 
