@@ -30,7 +30,14 @@ def get_holidays_taken():
     
     print(f"Emma took {holidays_emma}. Charlie took {holidays_charlie}. Darren took {holidays_darren}. George took {holidays_george}. Conor took {holidays_conor}.")
     holidays_str = [str(holidays_emma), str(holidays_charlie), str(holidays_darren), str(holidays_george), str(holidays_conor)]
+    validate_data(holidays_str)
     return holidays_str
+
+def validate_data(values):
+    try:
+        [int(value) for value in values]
+    except ValueError as e:
+        print(f'Invalid answer: {e}. Please try again\n')
 
 
 get_holidays_taken()
