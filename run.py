@@ -12,50 +12,42 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSREAD_CLIENT.open("honest_hours")
 
-def get_data(data_type):
-    """
-    Get data for variable , validate data and return in string form
-    """
-    print(f"Please enter {data_type} for the relevant employee below.")
-    print("This should be in numerical form.")
-    emma = input("Emma: ")
-    charlie = input("Charlie: ")
-    darren = input("Darren: ")
-    george = input("George: ")
-    conor = input("Conor: ")
-    data_str = [str(emma), str(charlie), str(darren), str(george), str(conor)]
-    validate_data(data_str)
-    return data_str
+employees = ["Emma", "Charlie", "Darren", "George", "Conor", "Lia"]
 
-
-def validate_data(values):
+def get_employee_name():
     """
-    This function validates the data 
+    Get name from the user so we have whos data
+    """
+    while True:
+        print("Please enter the details below:\n")
+        employee_name = input("Name: \n")
+        worksheet_name = employee_name.capitalize()
+        if validate_employee_name(worksheet_name):
+            print(f"Entered {worksheet_name} ")
+            break
+
+    return worksheet_name
+    
+
+def validate_employee_name(name):
+    """
+    Validate name by checking it against employee names
     """
     try:
-        [int(value) for value in values]
+        if not name in employees:
+            print(f'{name} is not an employee name.\n Please check the spelling and try again.\n')
+            return False
     except ValueError as e:
-        print(f'Invalid answer: {e}. Please try again\n')
-
-def append_worksheet(data, worksheet):
-    """
-    Receives holidays taken data and updates worksheet
-    """
-    print(f"Updating {worksheet} worksheet...")
-    worksheet_to_update = SHEET.worksheet(worksheet)
-    worksheet_to_update.append_row(data)
-    print(f"{worksheet} worksheet updated successfully\n")
+        print(f"Invalid data: {e}")
+        return False
+    
+    return True
+        
 
 
 
 
-def main():
-    """
-    Calls the main functions
-    """
-    holidays_data = get_data("holidays taken")
-    append_worksheet(holidays_data, "holidays taken")
-    hours_data = get_data("over hours worked")
-    append_worksheet(hours_data, "over hours")
 
-main()
+get_employee_name()
+
+
