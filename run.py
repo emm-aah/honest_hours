@@ -41,6 +41,18 @@ def get_month_of_data():
             break
         
     return month
+
+def get_holidays_taken():
+    """
+    Get number of holidays taken for the last month from the user 
+    """
+    while True:
+        holidays_taken = input("Number of holiday days taken in the month given: ")
+        if validate_holidays_taken(holidays_taken):
+            print(f"Entered {holidays_taken} days.\n")
+            break
+
+    return holidays_taken
     
 
 def validate_employee_name(name):
@@ -52,7 +64,7 @@ def validate_employee_name(name):
             print(f'\n{name} is not an employee name.\n Please check the spelling and try again.\n')
             return False
     except ValueError as e:
-        print(f"Invalid data: {e}")
+        print(f"Invalid data: {e}.")
         return False
     
     return True
@@ -71,6 +83,18 @@ def validate_month(given_month):
     
     return True
 
+def validate_holidays_taken(nums):
+    """
+    Validate name by checking it against employee names
+    """
+    try:
+        [int(num) for num in nums]   
+    except ValueError as e:
+        print(f"Invalid data: {e}. Please make sure its an integer and try again.\n")
+        return False
+    
+    return True
+
 
 
 def main():
@@ -79,6 +103,7 @@ def main():
     """
     get_employee_name()
     get_month_of_data()
+    get_holidays_taken()
 
 
 main()
