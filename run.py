@@ -53,6 +53,19 @@ def get_holidays_taken():
             break
 
     return holidays_taken
+
+
+def get_over_hours():
+    """
+    Get number of holidays taken for the last month from the user 
+    """
+    while True:
+        over_hours = input("Number of hours overtime worked in the month given: ")
+        if validate_over_hours(over_hours):
+            print(f"Entered {over_hours} hours.\n")
+            break
+
+    return over_hours
     
 
 def validate_employee_name(name):
@@ -95,6 +108,18 @@ def validate_holidays_taken(nums):
     
     return True
 
+def validate_over_hours(nums):
+    """
+    Validate name by checking it against employee names
+    """
+    try:
+        [int(num) for num in nums]   
+    except ValueError as e:
+        print(f"Invalid data: {e}. Please make sure its an integer and try again.\n")
+        return False
+    
+    return True
+
 
 
 def main():
@@ -104,6 +129,7 @@ def main():
     get_employee_name()
     get_month_of_data()
     get_holidays_taken()
+    get_over_hours()
 
 
 main()
