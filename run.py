@@ -13,6 +13,7 @@ GSREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSREAD_CLIENT.open("honest_hours")
 
 employees = ["Emma", "Charlie", "Darren", "George", "Conor", "Lia"]
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 def get_employee_name():
     """
@@ -20,13 +21,26 @@ def get_employee_name():
     """
     while True:
         print("Please enter the details below:\n")
-        employee_name = input("Name: \n")
+        employee_name = input("Name: ")
         worksheet_name = employee_name.capitalize()
         if validate_employee_name(worksheet_name):
-            print(f"Entered {worksheet_name} ")
+            print(f"Entered {worksheet_name}\n")
             break
 
     return worksheet_name
+
+def get_month_of_data():
+    """
+    Get the month from the user which the data corresponds to
+    """
+    while True:
+        month = input("Month: ")
+        month = month.capitalize()
+        if validate_month(month):
+            print(f"Entered {month}\n")
+            break
+        
+    return month
     
 
 def validate_employee_name(name):
@@ -35,7 +49,7 @@ def validate_employee_name(name):
     """
     try:
         if not name in employees:
-            print(f'{name} is not an employee name.\n Please check the spelling and try again.\n')
+            print(f'\n{name} is not an employee name.\n Please check the spelling and try again.\n')
             return False
     except ValueError as e:
         print(f"Invalid data: {e}")
@@ -43,11 +57,30 @@ def validate_employee_name(name):
     
     return True
         
+def validate_month(given_month):
+    """
+    Validate name by checking it against employee names
+    """
+    try:
+        if not given_month in MONTHS:
+            print(f'\n{given_month} is not a month of the year.\nPlease check the spelling and try again.\n')
+            return False
+    except ValueError as e:
+        print(f"Invalid data: {e}")
+        return False
+    
+    return True
 
 
 
+def main():
+    """
+    Calls the main functions
+    """
+    get_employee_name()
+    get_month_of_data()
 
 
-get_employee_name()
+main()
 
 
