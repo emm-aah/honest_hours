@@ -120,16 +120,29 @@ def validate_over_hours(nums):
     
     return True
 
+def update_sheet(employee, data, month):
+    """
+    Update employees worksheet with the month, holidays and overhours entered.
+    """
+    print(f"Updating {employee}'s worksheet...")
+    worksheet = SHEET.worksheet(employee)
+    worksheet.append_row(data)
+    print(f"Worksheet updated for {month}.")
 
+
+    
 
 def main():
     """
     Calls the main functions
     """
-    get_employee_name()
-    get_month_of_data()
-    get_holidays_taken()
-    get_over_hours()
+    employee = get_employee_name()
+    month = get_month_of_data()
+    holidays = get_holidays_taken()
+    hours = get_over_hours()
+    data_str = [month, int(holidays), int(hours)]
+    update_sheet(employee, data_str, month)
+
 
 
 main()
