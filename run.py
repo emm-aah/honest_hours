@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+import math
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -129,6 +130,23 @@ def update_sheet(employee, data, month):
     worksheet.append_row(data)
     print(f"Worksheet updated for {month}.")
 
+def calculate_total_holidays(holidays, hours, employee):
+    """
+    Takes the holidays taken away from holidays left
+    Gets the over time hours in terms of days and adds to holidays left
+    returns holidays left
+    """
+    print("Calculating holidays left...")
+
+    total_hrs_in_days = hours / 8
+    worksheet = SHEET.worksheet(employee)
+    holidays_column = worksheet.col_values(4)
+    last_updated_holidays = holidays_column[-1]
+    total_holidays = int(last_updated_holidays) + total_hrs_in_days - holidays
+    print(total_holidays)
+
+
+
 
     
 
@@ -138,10 +156,13 @@ def main():
     """
     employee = get_employee_name()
     month = get_month_of_data()
-    holidays = get_holidays_taken()
-    hours = get_over_hours()
-    data_str = [month, int(holidays), int(hours)]
+    holidays_str = get_holidays_taken()
+    holidays = int(holidays_str)
+    hours_str = get_over_hours()
+    hours = int(hours_str)
+    data_str = [month, holidays, hours]
     update_sheet(employee, data_str, month)
+    calculate_total_holidays(holidays, hours, employee)
 
 
 
