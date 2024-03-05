@@ -112,7 +112,7 @@ def validate_integer(nums):
     return True
 
 
-def update_sheet(employee, data, month):
+def update_sheet(employee, data, month,):
     """
     Update employees worksheet with the month, holidays and overhours entered.
     """
@@ -135,7 +135,8 @@ def calculate_total_holidays(holidays, hours, employee):
     last_updated_holidays = holidays_column[-1]
     total_holidays = int(last_updated_holidays) + total_hrs_in_days - holidays
     print(f"You have a total of {total_holidays} left to take.")
-    print(holidays_column)
+    
+    return total_holidays
 
 
 def calculate_pay_for_overtime(data, month):
@@ -144,8 +145,18 @@ def calculate_pay_for_overtime(data, month):
     """
     pay_out_for_month = data * 11.50
     print(f"Overtime pay for {month} is €{pay_out_for_month}")
+    
+    return pay_out_for_month
 
 
+def update_sheet(employee, data, month):
+    """
+    Update employees worksheet with the month, holidays and overhours entered.
+    """
+    print(f"Updating {employee}'s worksheet...")
+    worksheet = SHEET.worksheet(employee)
+    worksheet.append_row(data)
+    print(f"Worksheet updated for {month}.")
     
 
 
@@ -161,10 +172,13 @@ def main():
     holidays = int(holidays_str)
     hours_str = get_over_hours()
     hours = int(hours_str)
-    data_str = [month, holidays, hours]
-    update_sheet(employee, data_str, month)
     total_hols = calculate_total_holidays(holidays, hours, employee)
-    calculate_pay_for_overtime(hours, month)
+    total_holidays = int(total_hols)
+    pay_out = calculate_pay_for_overtime(hours, month)
+    pay = int(pay_out)
+    data_str = [month, holidays, hours, total_holidays, pay]
+    update_sheet(employee, data_str, month)
+   
     #update_total_holiday_sheet(employee, total_hols)
     
 
