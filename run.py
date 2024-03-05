@@ -25,20 +25,18 @@ def get_employee_name():
         employee_name = input("Name: ")
         worksheet_name = employee_name.capitalize()
         if validate_employee_name(worksheet_name):
-            print(f"Entered {worksheet_name}\n")
             break
 
     return worksheet_name
 
-def get_month_of_data():
+def get_month_of_data(name):
     """
     Get the month from the user which the data corresponds to
     """
     while True:
         month = input("Month: ")
         month = month.capitalize()
-        if validate_month(month):
-            print(f"Entered {month}\n")
+        if validate_month(month, name):
             break
         
     return month
@@ -87,10 +85,13 @@ def validate_month(given_month, name):
     """
     Validate name by checking it against employee names
     """
-    months_already_entered = SHEET.worksheet(name).
+    months_already_entered = SHEET.worksheet(name).col_values(1)
     try:
         if not given_month in MONTHS:
             print(f'\n{given_month} is not a month of the year.\nPlease check the spelling and try again.\n')
+            return False
+        if given_month in months_already_entered:
+            print(f'Data has been entered for {given_month} already. Would you like to continue with a different month? Y/N')
             return False
     except ValueError as e:
         print(f"Invalid data: {e}")
@@ -155,7 +156,7 @@ def main():
     Calls the main functions
     """
     employee = get_employee_name()
-    month = get_month_of_data()
+    month = get_month_of_data(employee)
     holidays_str = get_holidays_taken()
     holidays = int(holidays_str)
     hours_str = get_over_hours()
