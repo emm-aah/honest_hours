@@ -148,6 +148,19 @@ def calculate_pay_for_overtime(data, month):
     
     return pay_out_for_month
 
+def calculate_all_overtime_owed(employee):
+    """
+    Adds together all over time owed since start of the year
+    """
+    worksheet = SHEET.worksheet(employee)
+    overtime_values = worksheet.col_values(5)
+    overtime_values = overtime_values[1:]
+    overtime_integers = [int(overtime_value) for overtime_value in overtime_values]
+    full_overtime_pay = sum(overtime_integers)
+    print(f"You're overtime pay from January comes to €{full_overtime_pay}")
+
+    return full_overtime_pay
+
 
 def update_sheet(employee, data, month):
     """
@@ -157,9 +170,24 @@ def update_sheet(employee, data, month):
     worksheet = SHEET.worksheet(employee)
     worksheet.append_row(data)
     print(f"Worksheet updated for {month}.")
-    
+
+def cash_out():
+    """
+    Offers employee chance to cash out their over time
+    """
+    print("Would you like to cash out your overtime?")
+    answer = input("Y/N: ")
+    answer.capitalize()
+    if answer == "Y":
+        print("Would you like to cash it out in full?")
+        input("Y/N: ")
 
 
+
+def validate_yes_no():
+    """
+    Validates for yes or no
+    """
     
 
 def main():
@@ -178,8 +206,7 @@ def main():
     pay = int(pay_out)
     data_str = [month, holidays, hours, total_holidays, pay]
     update_sheet(employee, data_str, month)
-   
-    #update_total_holiday_sheet(employee, total_hols)
+    calculate_all_overtime_owed(employee)
     
 
 
