@@ -21,13 +21,15 @@ def get_employee_name():
     Get name from the user so we have whos data
     """
     while True:
+        print("Welcome to Honest Hours!\n")
         print("Please enter the details below:\n")
+        print("Example: \nName: Mary, Month: January, Holidays taken: 5, Over hours worked: 18\n")
         employee_name = input("Name: ")
-        worksheet_name = employee_name.capitalize()
-        if validate_employee_name(worksheet_name):
+        employee = employee_name.capitalize()
+        if validate_word_in_list(employee, employees, "list of employees"):
             break
 
-    return worksheet_name
+    return employee
 
 def get_month_of_data(name):
     """
@@ -41,17 +43,17 @@ def get_month_of_data(name):
         
     return month
 
-def get_holidays_taken():
+def get_info(question, month):
     """
     Get number of holidays taken for the last month from the user 
     """
     while True:
-        holidays_taken = input("Number of holiday days taken in the month given: ")
-        if validate_integer(holidays_taken):
-            print(f"Entered {holidays_taken} days.\n")
+        answer = input(f"How many {question} in {month}?: ")
+        if validate_integer(answer):
+            int_answer = int(answer)
             break
 
-    return holidays_taken
+    return int_answer
 
 
 def get_over_hours():
@@ -65,21 +67,21 @@ def get_over_hours():
             break
 
     return over_hours
-    
 
-def validate_employee_name(name):
+def validate_word_in_list(word, given_list, list_name):
     """
-    Validate name by checking it against employee names
+    Validate by checking if a word and then checking if the word is in the list
     """
     try:
-        if not name in employees:
-            print(f'\n{name} is not an employee name.\n Please check the spelling and try again.\n')
+        if not word in given_list:
+            print(f"\n{word} is not in {list_name}. Please check the spelling and try again.")
             return False
     except ValueError as e:
-        print(f"Invalid data: {e}.")
+        print(f"Invalid data: {e}")
         return False
-    
     return True
+
+    
         
 def validate_month(given_month, name):
     """
@@ -111,15 +113,6 @@ def validate_integer(nums):
     
     return True
 
-
-def update_sheet(employee, data, month,):
-    """
-    Update employees worksheet with the month, holidays and overhours entered.
-    """
-    print(f"Updating {employee}'s worksheet...")
-    worksheet = SHEET.worksheet(employee)
-    worksheet.append_row(data)
-    print(f"Worksheet updated for {month}.")
 
 def calculate_total_holidays(holidays, hours, employee):
     """
@@ -178,16 +171,15 @@ def cash_out():
     print("Would you like to cash out your overtime?")
     answer = input("Y/N: ")
     answer.capitalize()
+    validate_word_in_list(["Y", "N", "Yes", "No"], answer)
     if answer == "Y":
-        print("Would you like to cash it out in full?")
-        input("Y/N: ")
+        print(f"Would you like to cash out your overtime in full from January?")
+    else:
+        print("Thank you for filling out your hours with honesty!")
+        quit()
+        
 
 
-
-def validate_yes_no():
-    """
-    Validates for yes or no
-    """
     
 
 def main():
@@ -196,17 +188,14 @@ def main():
     """
     employee = get_employee_name()
     month = get_month_of_data(employee)
-    holidays_str = get_holidays_taken()
-    holidays = int(holidays_str)
-    hours_str = get_over_hours()
-    hours = int(hours_str)
-    total_hols = calculate_total_holidays(holidays, hours, employee)
-    total_holidays = int(total_hols)
-    pay_out = calculate_pay_for_overtime(hours, month)
-    pay = int(pay_out)
+    holidays = get_info("holiday days taken", month)
+    hours = get_info("over time hours worked", month)
+    total_holidays = calculate_total_holidays(holidays, hours, employee)
+    pay = calculate_pay_for_overtime(hours, month)
     data_str = [month, holidays, hours, total_holidays, pay]
     update_sheet(employee, data_str, month)
     calculate_all_overtime_owed(employee)
+    cash_out()
     
 
 
