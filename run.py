@@ -207,6 +207,7 @@ def cash_out_payment(answer, pay_out, month_pay_out, employee, hours):
     else:
         days = hours/ 8
         pay_out_str_month = ["Paid out", "", - hours, - days, - month_pay_out]
+        worksheet.append_row(pay_out_str)
         print(f"You will be receive €{month_pay_out} gross in your next paycheck\n")
         print(f"\nThank you for using honest hours")
         quit()
