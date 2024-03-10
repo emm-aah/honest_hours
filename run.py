@@ -80,6 +80,7 @@ def validate_month(given_month, name):
     """
     months_already_entered = SHEET.worksheet(name).col_values(1)
     try:
+        given_month + ""
         if not given_month in MONTHS:
             print(f'{given_month} is not a month of the year.\nPlease check the spelling and try again.\n')
             return False
@@ -146,7 +147,7 @@ def calculate_all_overtime_owed(employee):
     overtime_values = overtime_values[1:]
     overtime_integers = [int(overtime_value) for overtime_value in overtime_values]
     full_overtime_pay = sum(overtime_integers) 
-    print(f"You're overtime pay from January comes to €{full_overtime_pay}\n")
+    print(f"Your overtime pay from January comes to €{full_overtime_pay}\n")
 
     return full_overtime_pay
 
@@ -180,6 +181,7 @@ def cash_out_full_or_month(answer):
         while True:
             print("Would you like to cash out your overtime in full from January or just for the last month?")
             answer_two = input("Full/ Month: \n")
+            answer_two = answer_two.lower()
             if validate_word_in_list(answer_two, full_month, "Full/Month"):
                 break
         return answer_two
@@ -189,6 +191,9 @@ def cash_out_full_or_month(answer):
         quit()
 
 def cash_out_payment(answer, pay_out, month_pay_out, employee, hours):
+    """
+    Creates a data string of what needs to be appended to balance the worksheet after payout
+    """
     if answer == "full" or answer == "f":
         all_hours = pay_out/ 11
         days = all_hours/8
