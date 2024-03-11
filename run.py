@@ -45,9 +45,9 @@ def get_month_of_data(name):
         
     return month
 
-def get_info(question, month):
+def get_month_data(question, month):
     """
-    Get number of holidays taken for the last month from the user 
+    Get number of holidays taken and overhours worked for the last month from the user 
     """
     while True:
         answer = input(f"How many {question} in {month}: \n")
@@ -67,10 +67,19 @@ def validate_word_in_list(word, given_list, list_name):
         if not word in given_list:
             print(f"{word} is not in {list_name}. Please check the spelling and try again.\n")
             return False
-    except ValueError as e:
-        print(f"Invalid data: {e}")
+    except ValueError: 
+        print("The answer was not given in the form of a word. Please try again")
         return False
     return True
+
+def get_column_values(name, col_num):
+    """
+    gets list of column values from  employee worksheet
+    """
+    worksheet = SHEET.worksheet(name)
+    data_list = worksheet.col_values(col_num)
+    
+    return data_list
 
     
         
@@ -78,7 +87,7 @@ def validate_month(given_month, name):
     """
     Validate name by checking it against employee names
     """
-    months_already_entered = SHEET.worksheet(name).col_values(1)
+    months_already_entered = get_column_values(name, 1)
     try:
         given_month + ""
         if not given_month in MONTHS:
@@ -105,8 +114,19 @@ def validate_integer(nums):
     
     return True
 
+def calculate_holidays_without_overtime(name, holidays_taken):
+    """
+    """
+    taken_holidays = get_column_values(name, 2)
+    taken_holidays = taken_holidays[1:]
+    all_holidays_int = [float(taken_holiday) for taken_holiday in taken_holidays]
+    all_taken_holidays = sum(all_holidays_int) + holidays_taken
+    holidays_left_without_ot = 25 - all_taken_holidays
 
-def calculate_total_holidays(holidays_taken, hours, employee):
+    return holidays_left_without_ot
+
+
+def calculate_total_holidays(holidays_taken, hours, name):
     """
     Takes the holidays taken away from holidays left
     Gets the over time hours in terms of days and adds to holidays left
@@ -114,14 +134,9 @@ def calculate_total_holidays(holidays_taken, hours, employee):
     """
     print("Calculating holidays left...\n")
 
+    holidays_left_without_ot = calculate_holidays_without_overtime(name, holidays_taken)
+    holidays = get_column_values(name, 4)
     total_hrs_in_days = hours / 8
-    worksheet = SHEET.worksheet(employee)
-    holidays = worksheet.col_values(4)
-    taken_holidays = worksheet.col_values(2)
-    taken_holidays = taken_holidays[1:]
-    all_holidays_int = [float(taken_holiday) for taken_holiday in taken_holidays]
-    all_taken_holidays = sum(all_holidays_int) + holidays_taken
-    holidays_left_without_ot = 25 - all_taken_holidays
     last_updated_holidays = holidays[-1]
     total_holidays = float(last_updated_holidays) + total_hrs_in_days - holidays_taken
     print(f"You have a total of {holidays_left_without_ot} holidays left or {total_holidays} holidays with your overtime included.")
@@ -138,12 +153,11 @@ def calculate_pay_for_overtime(data, month):
     
     return pay_out_for_month
 
-def calculate_all_overtime_owed(employee):
+def calculate_all_overtime_owed(name):
     """
     Adds together all over time owed since start of the year
     """
-    worksheet = SHEET.worksheet(employee)
-    overtime_values = worksheet.col_values(5)
+    overtime_values = get_column_values(name, 5)
     overtime_values = overtime_values[1:]
     overtime_integers = [int(overtime_value) for overtime_value in overtime_values]
     full_overtime_pay = sum(overtime_integers) 
@@ -151,14 +165,16 @@ def calculate_all_overtime_owed(employee):
 
     return full_overtime_pay
 
+def update_sheet(employee, data):
+    worksheet = SHEET.worksheet(employee)
+    worksheet.append_row(data)
 
-def update_sheet(employee, data, month):
+def updating_worksheet(employee, data, month):
     """
     Update employees worksheet with the month, holidays and overhours entered.
     """
     print(f"Updating {employee}'s worksheet...\n")
-    worksheet = SHEET.worksheet(employee)
-    worksheet.append_row(data)
+    update_sheet(employee, data)
     print(f"Worksheet updated for {month}.\n")
 
 def cash_out():
@@ -198,8 +214,7 @@ def cash_out_payment(answer, pay_out, month_pay_out, employee, hours):
         all_hours = pay_out/ 11
         days = all_hours/8
         pay_out_str = ["Paid out", "",  - all_hours, -days, - pay_out]
-        worksheet = SHEET.worksheet(employee)
-        worksheet.append_row(pay_out_str)
+        update_sheet(employee, pay_out_str)
         print(f"You will be receive €{pay_out} gross in your next paycheck\n")
         print(f"\nThank you for using honest hours")
         quit()
@@ -207,7 +222,7 @@ def cash_out_payment(answer, pay_out, month_pay_out, employee, hours):
     else:
         days = hours/ 8
         pay_out_str_month = ["Paid out", "", - hours, - days, - month_pay_out]
-        worksheet.append_row(pay_out_str)
+        update_sheet(employee, pay_out_str_month)
         print(f"You will be receive €{month_pay_out} gross in your next paycheck\n")
         print(f"\nThank you for using honest hours")
         quit()
@@ -220,12 +235,12 @@ def main():
     """
     employee = get_employee_name()
     month = get_month_of_data(employee)
-    holidays = get_info("holiday days taken", month)
-    hours = get_info("over time hours worked", month)
+    holidays = get_month_data("holiday days taken", month)
+    hours = get_month_data("over time hours worked", month)
     total_holidays = calculate_total_holidays(holidays, hours, employee)
     pay = calculate_pay_for_overtime(hours, month)
     data_str = [month, holidays, hours, total_holidays, pay]
-    update_sheet(employee, data_str, month)
+    updating_worksheet(employee, data_str, month)
     full_payout = calculate_all_overtime_owed(employee)
     cash_out_answer = cash_out()
     answer_f_m = cash_out_full_or_month(cash_out_answer)
