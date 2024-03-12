@@ -26,16 +26,18 @@ def get_employee_name():
     Get name from the user so we have whos data
     """
     while True:
-        print("        WELCOME TO HONEST HOURS!\n")
+        print("   ---- WELCOME TO HONEST HOURS! ----\n")
         print("Please enter your personal holidays taken")
         print("and personal hours overtime for the")
         print("last month in the form of the example below")
-        print("Please enter the details below:\n")
         print("Example: \nName: Emma, Month: January")
         print("Holidays taken: 5, Over hours worked: 18\n")
+        print("\nEnter details:\n")
         employee_name = input("Name: \n")
         employee = employee_name.capitalize()
         if validate_word_in_list(employee, employees, "list of employees"):
+            print("The employee names available are:")
+            print(employees)
             break
 
     return employee
@@ -153,9 +155,9 @@ def calculate_total_holidays(holidays_taken, hours, name):
     total_holidays = float(last_updated_holidays)
     + total_hrs_in_days - holidays_taken
     print(f"You have a total of {holidays_left_without_ot} holidays left")
-    print("or {total_holidays} holidays with your overtime included.")
+    print(f"or {total_holidays} holidays with your overtime included.")
 
-    return total_holidays
+    return holidays_left_without_ot
 
 
 def calculate_pay_for_overtime(data, month):
@@ -183,6 +185,9 @@ def calculate_all_overtime_owed(name):
 
 
 def update_sheet(employee, data):
+    """
+    Append the worksheet with a new row
+    """
     worksheet = SHEET.worksheet(employee)
     worksheet.append_row(data)
 
@@ -237,7 +242,7 @@ def cash_out_payment(answer, pay_out, month_pay_out, employee, hours):
         all_hours = pay_out / 11
         days = all_hours / 8
         pay_out_str = ["Paid out", 0,  - int(all_hours),
-                       - int(days), - pay_out]
+                       0, - pay_out]
         update_sheet(employee, pay_out_str)
         print(f"You will be receive €{pay_out} gross in your next paycheck\n")
         print(f"\nThank you for using Honest Hours")
@@ -246,7 +251,7 @@ def cash_out_payment(answer, pay_out, month_pay_out, employee, hours):
     else:
         days = (hours / 8)
         pay_out_str_month = ["Paid out", 0, - int(hours),
-                             - int(days), - month_pay_out]
+                             0, - month_pay_out]
         update_sheet(employee, pay_out_str_month)
         print(f"You will be receive €{month_pay_out} gross")
         print("in your next paycheck\n")

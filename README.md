@@ -5,17 +5,19 @@ Honest hours is a command line program created for employees to keep track and m
 ## User Stories
 
 The main user of the program would be employees for the company and they would want to:
--Enter data easily 
--Gain insight into their holiday days left
--Gain insight into how much they have earned in overtime
--Allow them control over how they distribute their overtime
--Allow conversion of overtime to holidays or real money
+- Enter data easily 
+- Gain insight into their holiday days left
+- Gain insight into how much they have earned in overtime
+- Allow them control over how they distribute their overtime
+- Allow conversion of overtime to holidays or real money
 
 for the employer:
--data updated regularly for each staff member
--access to their spreadsheet for spotchecks
--validation on holidays taken
--The year befores information can be carried over to a new sheet
+- Data updated regularly for each staff member
+- Access to their spreadsheet for spotchecks
+- Validation on holidays taken
+- The year befores information can be carried over to a new sheet
+
+## Flowchart
 
 
 ## Existing Features
@@ -45,17 +47,32 @@ The overtime converted to cash for the month and for the total since January not
 The options will be then displayed to the user and they will be allowed to decide then how they use their overtime and if they don't want to decide now they can leave the program.
 
 
-
-
-
-
 ## Features which could be implented in the future
 
--Creation of new employee page from the program without having to update the spreadsheet manually. This would need to be looked at further as there would be issues around whether
--Quit button - work out how much the company owes you from holidays not taken and overtime owed.
+- Creation of new employee page from the program without having to update the spreadsheet manually. This would need to be looked at further as there would be issues around whether
+- Quit button - work out how much the company owes you from holidays not taken and overtime owed.
+
 
 ## Deployment 
 
-Before the project was deployed the project was checked with pep8 and annotation was corrected. "\n" was used in every input so that the question would apppear due to a flaw in Heroku. The requirements were created using the command 
+ 1. I created a list of requirements by getting together the dependencies and saving them in requirements.txt
+ 2. I then opened my Heroku account and went to create new app.
+ 3. I picked a name for the app "Honest Hours".
+ 4. I set the config vars for the cred.json file.
+ 5. I then added built packs for python and node.js and made sure that python was added first.
+
+## Testing
+### Validation
+I used the PEP8 validator to ensure the code was correct and it came up with no errors.
+
+### Debugging
+
+## Credits
+
+
+
+
+
+
 
 
