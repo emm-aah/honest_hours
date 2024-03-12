@@ -5,23 +5,28 @@ Honest hours is a command line program created for employees to keep track and m
 ## User Stories
 
 The main user of the program would be employees for the company and they would want to:
-Enter data easily 
-Gain insight into their holiday days left
-Gain insight into how much they have earned in overtime
-Allow them control over how they distribute their overtime
+-Enter data easily 
+-Gain insight into their holiday days left
+-Gain insight into how much they have earned in overtime
+-Allow them control over how they distribute their overtime
 
 for the employer:
-data updated regularly for each staff member
-access to their spreadsheet for spotchecks
-validation on holidays taken
+-data updated regularly for each staff member
+-access to their spreadsheet for spotchecks
+-validation on holidays taken
 
 ## Existing Features
 
 ### Welcome Screen
 
+The program introduces itself here with the name and a brief description of how the program is works so that it as user friendly as can be. There is an example of the type of data that will be looked for to also guide the user.
+
 ### Data input 
 
 ###
+
+
+
 
 
 ### Google Spreadsheet
@@ -29,6 +34,10 @@ validation on holidays taken
 ## Features which could be implented in the future
 
 Creation of new employee page from the program without having to update the spreadsheet manually.
-Quit button - work out how much the company owes you from holidays not taken and overtime owed
+Quit button - work out how much the company owes you from holidays not taken and overtime owed.
+
+## Deployment 
+
+Before the project was deployed the correct 
 
 
