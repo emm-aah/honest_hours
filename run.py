@@ -39,7 +39,7 @@ def get_employee_name():
             break
         else: 
             print("The employee names available are:")
-            print(employees)
+            print(f"{employees}\n")
 
     return employee
 
@@ -51,8 +51,9 @@ def get_month_of_data(name):
     while True:
         month = input("Month: \n")
         month = month.capitalize()
-        if validate_month(month, name):
-            break
+        if validate_word_in_list(month, MONTHS, "months of the year"):
+            if validate_month(month, name):
+                break
     return month
 
 
@@ -75,15 +76,31 @@ def validate_word_in_list(word, given_list, list_name):
     Validate by checking if a word and then checking if the word is in the list
     """
     try:
-        check = word + ""
+        word + ""
         if not word in given_list:
-            print(f"{word} is not in {list_name}.")
-            print("Please check the spelling and try again.\n")
+            raise ValueError(f"{word} is not in {list_name}. Please check the spelling and try again.\n")
             return False
+
     except ValueError:
-        print("The answer was not given in the form of a word.")
-        print("Please try again")
+        print("Please provide answer in word form. Please try again")
         return False
+
+    return True
+
+
+def validate_month(given_month, name):
+    """
+    Validate name by checking it against employee names
+    """
+    months_already_entered = get_column_values(name, 1)
+    try:
+        if given_month in months_already_entered:
+            print(f'Data has been entered for {given_month} already.')
+            return False
+    except ValueError as e:
+        print(f"Invalid data: {e}")
+        return False
+
     return True
 
 
@@ -103,23 +120,6 @@ def get_sum_of_column(name, col_num):
     column_sum = sum(values)
 
     return column_sum
-
-
-def validate_month(given_month, name):
-    """
-    Validate name by checking it against employee names
-    """
-    months_already_entered = get_column_values(name, 1)
-    try:
-        validate_word_in_list(given_month, MONTHS, "months of the year")
-        if given_month in months_already_entered:
-            print(f'Data has been entered for {given_month} already.')
-            return False
-    except ValueError as e:
-        print(f"Invalid data: {e}")
-        return False
-
-    return True
 
 
 def validate_integer(nums):
@@ -153,14 +153,14 @@ def calculate_holidays_left(name, holidays_taken):
     return new_holidays_left
 
 
-def calculate_extra_holidays(name):
+def calculate_extra_holidays(name, hours):
     """
     Takes the holidays taken away from holidays left
     Gets the over time hours in terms of days and adds to holidays left
     returns holidays left
     """
     all_hour_sum = get_sum_of_column(name, 3)
-    extra_days = all_hour_sum / 8
+    extra_days = (all_hour_sum + hours) / 8
     extra_days = math.floor(extra_days)
     print(f"You have {extra_days} days overtime available to convert to holiday days\n")
 
@@ -213,6 +213,7 @@ def display_option_menu(hours, holidays_left, month_pay, name, full_payout, extr
     answer = input("Please answer with 1, 2, 3, or 4: \n")
     complete_option_choice(answer, hours,holidays_left, month_pay, name, full_payout, extra_holidays)
 
+
 def complete_option_choice(answer, hours, holidays_left, month_pay, name, full_payout, extra_holidays):
     if answer == "1":
         all_hours = full_payout / 11
@@ -246,11 +247,6 @@ def complete_option_choice(answer, hours, holidays_left, month_pay, name, full_p
         print("Please answer with 1, 2, 3 or 4")
 
 
-
-
-    
-
-
 def main():
     """
     Calls the main functions
@@ -260,16 +256,12 @@ def main():
     holidays = get_month_data("holiday days taken", month)
     hours = get_month_data("over time hours worked", month)
     holidays_left = calculate_holidays_left(employee, holidays)
-    extra_holidays = calculate_extra_holidays(employee)
+    extra_holidays = calculate_extra_holidays(employee, hours)
     month_pay = calculate_pay_for_overtime(hours, month)
     data_str = [month, holidays, hours, holidays_left, month_pay]
     updating_worksheet(employee, data_str, month)
     full_payout = calculate_all_overtime_owed(employee)
     display_option_menu(hours, holidays_left, month_pay, employee, full_payout, extra_holidays)
-
-    #cash_out_answer = cash_out()
-    #answer_f_m = cash_out_full_or_month(cash_out_answer)
-    #cash_out_payment(answer_f_m, full_payout, pay, employee, hours, total_holidays)
 
 
 main()

@@ -42,9 +42,9 @@ This section will feed back the data to the user about how many holiday days the
 
 The overtime converted to cash for the month and for the total since January not paid out will be given to the user here to allow them to see their options.
 
-### Options
+### Option Menu
 
-The options will be then displayed to the user and they will be allowed to decide then how they use their overtime and if they don't want to decide now they can leave the program.
+The options will be then displayed to the user and they will be allowed to decide then how they use their overtime and if they don't want to decide now they can leave the program. 
 
 
 ## Features which could be implented in the future
