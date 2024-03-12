@@ -26,9 +26,12 @@ def get_employee_name():
     Get name from the user so we have whos data
     """
     while True:
-        print("Welcome to Honest Hours!\n")
+        print("        WELCOME TO HONEST HOURS!\n")
+        print("Please enter your personal holidays taken")
+        print("and personal hours overtime for the")
+        print("last month in the form of the example below")
         print("Please enter the details below:\n")
-        print("Example: \nName: Mary, Month: January")
+        print("Example: \nName: Emma, Month: January")
         print("Holidays taken: 5, Over hours worked: 18\n")
         employee_name = input("Name: \n")
         employee = employee_name.capitalize()
@@ -97,11 +100,7 @@ def validate_month(given_month, name):
     """
     months_already_entered = get_column_values(name, 1)
     try:
-        given_month + ""
-        if not given_month in MONTHS:
-            print(f"{given_month} is not a month of the year.")
-            print("Please check the spelling and try again.\n')
-            return False
+        validate_word_in_list(given_month, MONTHS, "months of the year.")
         if given_month in months_already_entered:
             print(f'Data has been entered for {given_month} already.')
             return False
@@ -147,8 +146,7 @@ def calculate_total_holidays(holidays_taken, hours, name):
     """
     print("Calculating holidays left...\n")
 
-    holidays_left_without_ot =
-    calculate_holidays_without_overtime(name, holidays_taken)
+    holidays_left_without_ot = calculate_holidays_without_overtime(name, holidays_taken)
     holidays = get_column_values(name, 4)
     total_hrs_in_days = hours / 8
     last_updated_holidays = holidays[-1]
