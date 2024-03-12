@@ -25,14 +25,15 @@ def get_employee_name():
     """
     Get name from the user so we have whos data
     """
+  
+    print("   ---- WELCOME TO HONEST HOURS! ----\n")
+    print("Please enter your personal holidays taken")
+    print("and personal hours overtime for the")
+    print("last month in the form of the example below")
+    print("Example: \nName: Emma, Month: January")
+    print("Holidays taken: 5, Over hours worked: 18\n")
+    print("\n   ---- Enter details here: ----\n")
     while True:
-        print("   ---- WELCOME TO HONEST HOURS! ----\n")
-        print("Please enter your personal holidays taken")
-        print("and personal hours overtime for the")
-        print("last month in the form of the example below")
-        print("Example: \nName: Emma, Month: January")
-        print("Holidays taken: 5, Over hours worked: 18\n")
-        print("\n   ---- Enter details here: ----\n")
         employee_name = input("Name: \n")
         employee = employee_name.capitalize()
         if validate_word_in_list(employee, employees, "list of employees"):
@@ -78,7 +79,8 @@ def validate_word_in_list(word, given_list, list_name):
     try:
         word + ""
         if not word in given_list:
-            raise ValueError(f"{word} is not in {list_name}. Please check the spelling and try again.\n")
+            raise ValueError(f"{word} is not in {list_name}.")
+            print("Please check the spelling and try again.\n")
             return False
 
     except ValueError:
