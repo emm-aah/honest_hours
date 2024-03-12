@@ -36,9 +36,10 @@ def get_employee_name():
         employee_name = input("Name: \n")
         employee = employee_name.capitalize()
         if validate_word_in_list(employee, employees, "list of employees"):
+            break
+        else: 
             print("The employee names available are:")
             print(employees)
-            break
 
     return employee
 
