@@ -159,7 +159,7 @@ def calculate_extra_holidays(name):
     Gets the over time hours in terms of days and adds to holidays left
     returns holidays left
     """
-    all_hour_sum = get_sum_of_column(name, 4)
+    all_hour_sum = get_sum_of_column(name, 3)
     extra_days = all_hour_sum / 8
     extra_days = math.floor(extra_days)
     print(f"You have {extra_days} days overtime available to convert to holiday days\n")
@@ -204,18 +204,23 @@ def updating_worksheet(employee, data, month):
     print(f"Worksheet updated for {month}.\n")
 
 
-def display_option_menu(hours, holidays_left, month_pay, name, full_payout):
+def display_option_menu(hours, holidays_left, month_pay, name, full_payout, extra_holidays):
     print("Choose one of the following:")
     print("1. Convert overtime hours to available holidays.")
     print("2. Cash out over time for the last month.")
     print("3. Cash out full overtime since January.")
     print("4. Decide later and leave program")
     answer = input("Please answer with 1, 2, 3, or 4: \n")
-    complete_option_choice(answer, hours,holidays_left, month_pay, name, full_payout)
+    complete_option_choice(answer, hours,holidays_left, month_pay, name, full_payout, extra_holidays)
 
-def complete_option_choice(answer, hours, holidays_left, month_pay, name, full_payout):
+def complete_option_choice(answer, hours, holidays_left, month_pay, name, full_payout, extra_holidays):
     if answer == "1":
-        print("convert")
+        all_hours = full_payout / 11
+        updated_hols = extra_holidays + holidays_left
+        converted_hols_str = ["Converted", 0, -int(all_hours), updated_hols, -full_payout]
+        update_sheet(name, converted_hols_str)
+        print(f"You now have {updated_hols} holidays left to take.\n")
+        print("Thank you for using Honest Hours")
 
     elif answer == "2":
         pay_out_str_month = ["After pay out", 0, - int(hours),
@@ -260,7 +265,7 @@ def main():
     data_str = [month, holidays, hours, holidays_left, month_pay]
     updating_worksheet(employee, data_str, month)
     full_payout = calculate_all_overtime_owed(employee)
-    display_option_menu(hours, holidays_left, month_pay, employee, full_payout)
+    display_option_menu(hours, holidays_left, month_pay, employee, full_payout, extra_holidays)
 
     #cash_out_answer = cash_out()
     #answer_f_m = cash_out_full_or_month(cash_out_answer)
