@@ -97,8 +97,8 @@ def validate_month(given_month, name):
         if given_month in months_already_entered:
             print(f'Data has been entered for {given_month} already.')
             return False
-    except ValueError as e:
-        print(f"Invalid data: {e}")
+    except ValueError:
+        print(f'Data has been entered for {given_month} already.')
         return False
 
     return True
@@ -205,6 +205,9 @@ def updating_worksheet(employee, data, month):
 
 
 def display_option_menu(hours, holidays_left, month_pay, name, full_payout, extra_holidays):
+    """
+    Display menu options for user
+    """
     print("Choose one of the following:")
     print("1. Convert overtime hours to available holidays.")
     print("2. Cash out over time for the last month.")
@@ -215,6 +218,10 @@ def display_option_menu(hours, holidays_left, month_pay, name, full_payout, extr
 
 
 def complete_option_choice(answer, hours, holidays_left, month_pay, name, full_payout, extra_holidays):
+    """
+    Create string of data for worksheet update according to the option chosen
+    Quit program when finished
+    """
     if answer == "1":
         all_hours = full_payout / 11
         updated_hols = extra_holidays + holidays_left
