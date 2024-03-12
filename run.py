@@ -243,7 +243,7 @@ def cash_out_payment(answer, pay_out, month_pay_out, employee, hours, total_holi
         all_hours = pay_out / 11
         days = all_hours / 8
         pay_out_str = ["Paid out", 0,  - int(all_hours),
-                       0, - pay_out]
+                       total_holidays, - pay_out]
         update_sheet(employee, pay_out_str)
         print(f"You will be receive €{pay_out} gross in your next paycheck\n")
         print(f"\nThank you for using Honest Hours")
