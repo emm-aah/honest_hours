@@ -32,7 +32,7 @@ def get_employee_name():
         print("last month in the form of the example below")
         print("Example: \nName: Emma, Month: January")
         print("Holidays taken: 5, Over hours worked: 18\n")
-        print("\nEnter details:\n")
+        print("\n   ---- Enter details here: ----\n")
         employee_name = input("Name: \n")
         employee = employee_name.capitalize()
         if validate_word_in_list(employee, employees, "list of employees"):
@@ -234,7 +234,7 @@ def cash_out_full_or_month(answer):
         quit()
 
 
-def cash_out_payment(answer, pay_out, month_pay_out, employee, hours):
+def cash_out_payment(answer, pay_out, month_pay_out, employee, hours, total_holidays):
     """
     Creates a data string of what needs to be appended to balance
     the worksheet after payout
@@ -251,8 +251,8 @@ def cash_out_payment(answer, pay_out, month_pay_out, employee, hours):
 
     else:
         days = (hours / 8)
-        pay_out_str_month = ["Paid out", 0, - int(hours),
-                             0, - month_pay_out]
+        pay_out_str_month = ["After pay out", 0, - int(hours),
+                             total_holidays , - month_pay_out]
         update_sheet(employee, pay_out_str_month)
         print(f"You will be receive €{month_pay_out} gross")
         print("in your next paycheck\n")
@@ -275,7 +275,7 @@ def main():
     full_payout = calculate_all_overtime_owed(employee)
     cash_out_answer = cash_out()
     answer_f_m = cash_out_full_or_month(cash_out_answer)
-    cash_out_payment(answer_f_m, full_payout, pay, employee, hours)
+    cash_out_payment(answer_f_m, full_payout, pay, employee, hours, total_holidays)
 
 
 main()

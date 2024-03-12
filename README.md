@@ -1,6 +1,6 @@
 # Honest Hours
 
-Honest hours is a command line program created for employees to keep track and manage their overtime work and holiday days. The program is aimed at taking the burden of work from the employer and allowing the staff to imput their own hours which will update the main google document. It also aims to place the ability to decide whether they would like to be paid in full or in part for these hours with the employee and balance the sheet accordingly.
+Honest hours is a command line program created for employees to keep track and manage their overtime work and holiday days. The program is aimed at taking the burden of work from the employer and allowing the staff to imput their own hours which will update the main google document. It also aims to place the ability to decide how they would like to receive their overtime with the employee. They can take it in either pay or extra holiday days and this
 
 ## User Stories
 
@@ -66,6 +66,9 @@ The options will be then displayed to the user and they will be allowed to decid
 I used the PEP8 validator to ensure the code was correct and it came up with no errors.
 
 ### Debugging
+
+1. A bug was found when the pay out row was appended to the page. The next time when the columns were added together there was an empty string that could not be converted to an integer. I added a zero here as it would not change.
+
 
 ## Credits
 
