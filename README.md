@@ -1,6 +1,6 @@
 # Honest Hours
 
-Honest hours is a command line program created for employees to keep track and manage their overtime work and holiday days. The program is aimed at taking the burden of work from the employer and allowing the staff to imput their own hours which will update the main google document. It also aims to place the ability to decide how they would like to receive their overtime with the employee. They can take it in either pay or extra holiday days and this
+Honest hours is a command line program created for employees to keep track and manage their overtime work and holiday days. The program is aimed at taking the burden of work from the employer and allowing the staff to input their own hours which will update the main google document. It also aims to place the ability to decide how they would like to receive their overtime with the employee. They can take it in either pay or extra holiday days and this
 
 ## User Goals
 
@@ -13,20 +13,36 @@ The main user of the program would be employees for the company and they would w
 
 for the employer:
 - Data updated regularly for each staff member
-- Access to their spreadsheet for spotchecks
+- Access to their spreadsheet for spot checks
 - Validation on holidays taken
 - The year befores information can be carried over to a new sheet
 
 ## User Stories
 
+- As the user I click run program and a welcome message appears
+- I read the instructions and example which show me how the data is expected 
+- I see that there is an enter details section where the name question is empty
+- I enter my name and it is validated
+- I enter the month and it is validated
+- I enter the holidays I took for the month entered
+- I enter the hours overtime I worked for the month entered
+- I then see how many holidays I have left and how many I could covert from my overtime
+- I see how much I am owed in euro in overtime for the month and since the start of the year
+- I then see a menu which allows me to choose how I wish to handle my overtime
+- I press 1 and I see that my overtime hours have been converted to holiday days
+- I see a goodbye message that confirms I am finished for this entry
+
 ## Flowchart
+
+![Flowchart 1](/documentation/images/flowchart_1.png)
+![Flowchart_2](/documentation/images/flowchart_2.png)
 
 
 ## Existing Features
 
 ### Welcome Screen
 
-The program introduces itself here with the name and a brief description of how the program is works so that it as user friendly as can be. There is an example of the type of data that will be looked for to also guide the user.
+The program introduces itself here with the name and a brief description of how the program works so that it is as user friendly as can be. There is an example of the type of data that will be looked for to also guide the user.
 ![Welcome Page](/documentation/images/welcome_message.png)
 
 ### Data input 
@@ -36,7 +52,7 @@ Each question appears individually and allows the user to input the data step by
 
 ### Google Spreadsheet
 
-The spreadsheet is built of individual employee worksheets. Each worksheet contains the information for the year so far. The from the year previous can be input by the employer at the start of the new year if they allow for the carry over of holidays and overtime pay. Each sheet is seperate so the personal data of each employee would be private if the employer needed to speak to anyone about their particular worksheet. This worksheet is updated once all the data is entered correctly. This will be balanced then if the employee decides to cash out their overtime by taking away the equivalant.
+The spreadsheet is built of individual employee worksheets. Each worksheet contains the information for the year so far. The from the year previous can be input by the employer at the start of the new year if they allow for the carry over of holidays and overtime pay. Each sheet is separate so the personal data of each employee would be private if the employer needed to speak to anyone about their particular worksheet. This worksheet is updated once all the data is entered correctly. This will be balanced then if the employee decides to cash out their overtime by taking away the equivalent.
 
 ![Google Sheet](/documentation/images/google_sheet.png)
 
@@ -62,7 +78,7 @@ A quick line with the brand name to let the user know they have finished their e
 ![Goodbye Message](/documentation/images/goodbye_message.png)
 
 
-## Features which could be implented in the future
+## Features which could be implemented in the future
 
 - Creation of new employee page from the program without having to update the spreadsheet manually. This would need to be looked at further as there would be issues around whether
 - Quit button - work out how much the company owes you from holidays not taken and overtime owed.
@@ -70,11 +86,34 @@ A quick line with the brand name to let the user know they have finished their e
 
 ## Deployment 
 
+I used gitpod to create my site and pushed any changes made to github.
+
+To deploy:
+
  1. I created a list of requirements by getting together the dependencies and saving them in requirements.txt
  2. I then opened my Heroku account and went to create new app.
  3. I picked a name for the app "Honest Hours".
  4. I set the config vars for the cred.json file.
- 5. I then added built packs for python and node.js and made sure that python was added first.
+ 5. I then added build packs for python and node.js and made sure that python was added first.
+
+To set up API:
+  
+  1. Made a google sheet.
+  2. Go To Google Cloud Platform and create a new project
+  3. Setup API Credentials by:
+        - going to 'APIs + Services' then 'Libraries'
+        - found Google Drive API, selected and enabled
+        - Clicked Create Credentials, then in Credential Type and selected Google Drive from dropdown
+        - Clicked Application data and no I'm not using them radio buttons
+        - Then gave it the name honest_hours 
+        - In the role dropdown I chose editor + skipped the rest pressing done
+        - I then created a new key with json and downloaded it to my computer
+  4. Enabled Google Sheets API
+  5. Drag and drop the json file into repository.
+  6. Save it in .gitignore
+  7. Install gspread and google auth libraries
+  8. Copy client email from json file and go back to google sheets and share to that email
+
 
 ## Testing
 ### Validation
@@ -98,6 +137,14 @@ I used the PEP8 validator to ensure the code was correct and it came up with no 
 
 
 ## Credits
+
+- _Code institute- Love Sandwiches project_ - I used my knowledge from this completing this to mould my project idea.
+- https://github.com/elainebroche-dev/ms3-event-scheduler - I liked the way she used a menu to begin with and implemented something similar for the end of my project
+- _Lucid App_ - I used this to create the flowchart
+
+## Acknowledgements
+
+Medale Oluwafemi - my mentor for helping me through each stage of the project with his valuable input.
 
 
 
