@@ -65,6 +65,110 @@ The options will be then displayed to the user and they will be allowed to decid
 ### Validation
 I used the PEP8 validator to ensure the code was correct and it came up with no errors.
 
+| **Test Category** | **Steps**| **Expected Outcome**| **Result**|
+|----------|--------|----------|------------|---------|
+|Welcome page | Run program and should appear| ---- WELCOME TO HONEST HOURS! ----
+Please enter your personal holidays taken
+and personal hours overtime for the
+last month in the form of the example below
+Example: 
+Name: Emma, Month: January
+Holidays taken: 5, Over hours worked: 18
+
+
+   ---- Enter details here: ---- | pass|
+|Name invalid | Enter a name that was not available
+John is not in the list of employees.
+Please check the spelling and try again.
+The employee names available are:
+['Emma', 'Charlie', 'Darren', 'George', 'Conor', 'Lia'] | Pass |
+|Name - valid but lowercase |Enter valid name lowercase and uppercase |Name: 
+emma
+Month: 
+(next question appears when first is answered with valid data)| Pass |
+Name - valid
+Enter valid name
+Name: 
+Emma
+Month: 
+Pass
+Month - invalid spelling
+Enter month spelled wrong
+Jan is not in months of the year..
+Please check the spelling and try again.
+
+How many holiday days taken in 6: 
+
+
+Pass
+Data already entered for month
+Enter month already used by user
+Data has been entered for June already.
+
+
+Pass
+Month valid
+Enter valid month
+Month: 
+August
+How many holiday days taken in August: 
+Pass
+Holidays invalid string
+Enter word instead of number
+How many holiday days taken in August: 
+two
+Please make sure your answer is given as a number.
+Try again.
+
+
+pass
+Holidays valid
+Enter number
+How many holiday days taken in August: 
+2
+How many overtime hours worked in August: 
+pass
+Overtime invalid string
+Enter word instead of number
+eight
+Please make sure your answer is given as a number.
+Try again.
+pass
+Overtime valid
+Enter number
+How many overtime hours worked in August: 
+8
+Calculating holidays left...
+pass
+Data update on sheet
+Runs itself once all data entered
+Google sheet updated with new row of data
+pass
+Holiday days left calculation
+Runs itself
+Holidays left for the month minus holidays taken
+pass
+Holiday days to convert calculation
+Runs itself
+Overtime found in full shifts by dividing by 8 hours
+pass
+Month pay calculation
+Runs itself
+Overtime hours by hourly rate
+pass
+Full pay calculation
+Runs itself
+All pay due added together
+pass
+Add data row to convert overtime to holidays
+Enter 1
+Data row added to balance the holiday days converted
+pass
+Add data row to pay out one month of overtime
+Enter 2
+Data row added to Google sheets that balances sheet for last month of overtime to be paid. Message about how much gross to expect and goodbye message
+pass
+
 
 
 
@@ -79,7 +183,15 @@ I used the PEP8 validator to ensure the code was correct and it came up with no 
 
 ### Debugging
 
-1. A bug was found when the pay out row was appended to the page. The next time when the columns were added together there was an empty string that could not be converted to an integer. I added a zero here as it would not change.
+| **Bug** | **Fix** |
+|---|---|
+| Welcome page was coming up again when the name invalid. | Took the welcome page out of the while true loop.|
+| When holidays converted it removed full pay due and full overtime to balance but still hours that didn’t make full shifts were to be left. | Changed to work backwards from holidays converted instead of adding full pay due together.|
+| Month validation was giving true for month spelled wrong | Put one validation inside the other so that both had to work to return true |
+| Overtime available to convert did not include the overtime just entered for that month | Added the current month overtime to calculation |
+| Data row appended had an empty string that could not be added together later | Changed to zero |
+
+
 
 
 ## Credits
