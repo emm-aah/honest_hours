@@ -65,6 +65,18 @@ The options will be then displayed to the user and they will be allowed to decid
 ### Validation
 I used the PEP8 validator to ensure the code was correct and it came up with no errors.
 
+
+
+
+
+
+
+
+
+
+
+
+
 ### Debugging
 
 1. A bug was found when the pay out row was appended to the page. The next time when the columns were added together there was an empty string that could not be converted to an integer. I added a zero here as it would not change.

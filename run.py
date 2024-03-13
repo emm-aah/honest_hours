@@ -25,7 +25,7 @@ def get_employee_name():
     """
     Get name from the user so we have whos data
     """
-    
+
     print("   ---- WELCOME TO HONEST HOURS! ----\n")
     print("Please enter your personal holidays taken")
     print("and personal hours overtime for the")
@@ -41,7 +41,8 @@ def get_employee_name():
         else:
             print("The employee names available are:")
             print(f"{employees}\n")
-            print("Please speak with your manager if your name is not included.")
+            print("Please speak with your manager if your name")
+            print("is not included.")
 
     return employee
 
@@ -80,7 +81,7 @@ def validate_word_in_list(word, given_list, list_name):
     try:
         if word in given_list:
             return True
-        else: 
+        else:
             print(f"{word} is not in {list_name}.")
             print("Please try again")
             return False
@@ -107,6 +108,7 @@ def validate_month(given_month, name):
         return False
 
     return True
+
 
 def validate_integer(nums):
     """
@@ -235,7 +237,8 @@ def complete_option_choice(answer, hours, holidays_left,
         all_hours = full_payout / 11
         updated_holidays = extra_holidays + holidays_left
         converted_holidays_str = ["Converted", 0,
-                              -int(all_hours), updated_holidays, -full_payout]
+                                  -int(all_hours), updated_holidays,
+                                  -full_payout]
         update_sheet(name, converted_holidays_str)
         print(f"You now have {updated_holidays} holidays left to take.\n")
         print("Thank you for using Honest Hours!")
@@ -284,6 +287,7 @@ def main():
 
 
 main()
+
 
 
 
