@@ -25,21 +25,23 @@ def get_employee_name():
     """
     Get name from the user so we have whos data
     """
+    
+    print("   ---- WELCOME TO HONEST HOURS! ----\n")
+    print("Please enter your personal holidays taken")
+    print("and personal hours overtime for the")
+    print("last month in the form of the example below")
+    print("Example: \nName: Emma, Month: January")
+    print("Holidays taken: 5, Over hours worked: 18\n")
+    print("\n   ---- Enter details here: ----\n")
     while True:
-        print("   ---- WELCOME TO HONEST HOURS! ----\n")
-        print("Please enter your personal holidays taken")
-        print("and personal hours overtime for the")
-        print("last month in the form of the example below")
-        print("Example: \nName: Emma, Month: January")
-        print("Holidays taken: 5, Over hours worked: 18\n")
-        print("\n   ---- Enter details here: ----\n")
         employee_name = input("Name: \n")
         employee = employee_name.capitalize()
         if validate_word_in_list(employee, employees, "list of employees"):
             break
-        else: 
+        else:
             print("The employee names available are:")
             print(f"{employees}\n")
+            print("Please speak with your manager if your name is not included.")
 
     return employee
 
@@ -76,13 +78,15 @@ def validate_word_in_list(word, given_list, list_name):
     Validate by checking if a word and then checking if the word is in the list
     """
     try:
-        word + ""
-        if not word in given_list:
-            raise ValueError(f"{word} is not in {list_name}. Please check the spelling and try again.\n")
+        if word in given_list:
+            return True
+        else: 
+            print(f"{word} is not in {list_name}.")
+            print("Please try again")
             return False
-
-    except ValueError:
-        print("Please provide answer in word form. Please try again")
+    except ValueError as e:
+        print(f"Invalid data: {e}")
+        print("Please try again.")
         return False
 
     return True
@@ -97,30 +101,12 @@ def validate_month(given_month, name):
         if given_month in months_already_entered:
             print(f'Data has been entered for {given_month} already.')
             return False
-    except ValueError:
-        print(f'Data has been entered for {given_month} already.')
+    except ValueError as e:
+        print(f'Invalid data: {e}')
+        print("Please try again.")
         return False
 
     return True
-
-
-def get_column_values(name, col_num):
-    """
-    gets list of column values from  employee worksheet
-    """
-    worksheet = SHEET.worksheet(name)
-    data_list = worksheet.col_values(col_num)
-
-    return data_list
-
-def get_sum_of_column(name, col_num):
-    values = get_column_values(name, col_num)
-    values = values[1:]
-    values = [int(value) for value in values]
-    column_sum = sum(values)
-
-    return column_sum
-
 
 def validate_integer(nums):
     """
@@ -136,6 +122,25 @@ def validate_integer(nums):
     return True
 
 
+def get_column_values(name, col_num):
+    """
+    gets list of column values from  employee worksheet
+    """
+    worksheet = SHEET.worksheet(name)
+    data_list = worksheet.col_values(col_num)
+
+    return data_list
+
+
+def get_sum_of_column(name, col_num):
+    values = get_column_values(name, col_num)
+    values = values[1:]
+    values = [int(value) for value in values]
+    column_sum = sum(values)
+
+    return column_sum
+
+
 def calculate_holidays_left(name, holidays_taken):
     """
     gets holiday days taken and takes it away from total holidays
@@ -147,7 +152,7 @@ def calculate_holidays_left(name, holidays_taken):
     print(f"You have {new_holidays_left} holidays left.")
 
     if new_holidays_left < 0:
-        print("You have taken more than your alloted holidays.") 
+        print("You have taken more than your alloted holidays.")
         print("Please convert overtime to holidays")
         print("or speak to a manager about the issue.\n")
     return new_holidays_left
@@ -162,14 +167,15 @@ def calculate_extra_holidays(name, hours):
     all_hour_sum = get_sum_of_column(name, 3)
     extra_days = (all_hour_sum + hours) / 8
     extra_days = math.floor(extra_days)
-    print(f"You have {extra_days} days overtime available to convert to holiday days\n")
+    print(f"You have {extra_days} days overtime available")
+    print("to convert to holiday days\n")
 
     return extra_days
 
 
 def calculate_pay_for_overtime(data, month):
     """
-    Takes over time hours and converts to wages
+    Takes overtime hours and converts to wages
     """
     pay_out_for_month = data * 11
     print(f"Overtime pay for {month} is €{pay_out_for_month}\n")
@@ -204,53 +210,58 @@ def updating_worksheet(employee, data, month):
     print(f"Worksheet updated for {month}.\n")
 
 
-def display_option_menu(hours, holidays_left, month_pay, name, full_payout, extra_holidays):
+def display_option_menu(hours, holidays_left, month_pay,
+                        name, full_payout, extra_holidays):
     """
     Display menu options for user
     """
     print("Choose one of the following:")
     print("1. Convert overtime hours to available holidays.")
-    print("2. Cash out over time for the last month.")
+    print("2. Cash out overtime for the last month.")
     print("3. Cash out full overtime since January.")
     print("4. Decide later and leave program")
     answer = input("Please answer with 1, 2, 3, or 4: \n")
-    complete_option_choice(answer, hours,holidays_left, month_pay, name, full_payout, extra_holidays)
+    complete_option_choice(answer, hours, holidays_left, month_pay,
+                           name, full_payout, extra_holidays)
 
 
-def complete_option_choice(answer, hours, holidays_left, month_pay, name, full_payout, extra_holidays):
+def complete_option_choice(answer, hours, holidays_left,
+                           month_pay, name, full_payout, extra_holidays):
     """
     Create string of data for worksheet update according to the option chosen
     Quit program when finished
     """
     if answer == "1":
         all_hours = full_payout / 11
-        updated_hols = extra_holidays + holidays_left
-        converted_hols_str = ["Converted", 0, -int(all_hours), updated_hols, -full_payout]
-        update_sheet(name, converted_hols_str)
-        print(f"You now have {updated_hols} holidays left to take.\n")
-        print("Thank you for using Honest Hours")
+        updated_holidays = extra_holidays + holidays_left
+        converted_holidays_str = ["Converted", 0,
+                              -int(all_hours), updated_holidays, -full_payout]
+        update_sheet(name, converted_holidays_str)
+        print(f"You now have {updated_holidays} holidays left to take.\n")
+        print("Thank you for using Honest Hours!")
 
     elif answer == "2":
         pay_out_str_month = ["After pay out", 0, - int(hours),
-                             holidays_left , - month_pay]
+                             holidays_left, - month_pay]
         update_sheet(name, pay_out_str_month)
         print(f"You will be receive €{month_pay} gross")
         print("in your next paycheck\n")
-        print(f"\nThank you for using filling out your hours with honesty!")
+        print(f"\nThank you for using Honest Hours!")
         quit()
-    
+
     elif answer == "3":
         all_hours = full_payout / 11
         pay_out_str = ["Paid out", 0,  - int(all_hours),
                        holidays_left, - full_payout]
         update_sheet(name, pay_out_str)
-        print(f"You will be receive €{full_payout} gross in your next paycheck\n")
-        print(f"\nThank you for using Honest Hours")
+        print(f"You will be receive €{full_payout} gross")
+        print("in your next paycheck\n")
+        print(f"\nThank you for using Honest Hours!")
         quit()
     elif answer == "4":
-        print(f"\nThank you for using Honest Hours")
+        print(f"\nThank you for using Honest Hours!")
         quit()
-    else: 
+    else:
         print("Please answer with 1, 2, 3 or 4")
 
 
@@ -261,17 +272,19 @@ def main():
     employee = get_employee_name()
     month = get_month_of_data(employee)
     holidays = get_month_data("holiday days taken", month)
-    hours = get_month_data("over time hours worked", month)
+    hours = get_month_data("overtime hours worked", month)
     holidays_left = calculate_holidays_left(employee, holidays)
     extra_holidays = calculate_extra_holidays(employee, hours)
     month_pay = calculate_pay_for_overtime(hours, month)
     data_str = [month, holidays, hours, holidays_left, month_pay]
     updating_worksheet(employee, data_str, month)
     full_payout = calculate_all_overtime_owed(employee)
-    display_option_menu(hours, holidays_left, month_pay, employee, full_payout, extra_holidays)
+    display_option_menu(hours, holidays_left, month_pay,
+                        employee, full_payout, extra_holidays)
 
 
 main()
+
 
 
 
