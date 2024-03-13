@@ -1,6 +1,9 @@
 # Honest Hours
 
-Honest hours is a command line program created for employees to keep track and manage their overtime work and holiday days. The program is aimed at taking the burden of work from the employer and allowing the staff to input their own hours which will update the main google document. It also aims to place the ability to decide how they would like to receive their overtime with the employee. They can take it in either pay or extra holiday days and this
+Honest hours is a command line program created for employees to keep track and manage their overtime work and holiday days. The program is aimed at taking the burden of work from the employer and allowing the staff to input their own hours which will update the main google document. It also aims to place the ability to decide how they would like to receive their overtime with the employee. They can take it in either pay or extra holiday days or as pay in part or full.
+
+The live project can be found [here](https://honest-hours-4f19aa16e5ff.herokuapp.com/)
+
 
 ## User Goals
 
